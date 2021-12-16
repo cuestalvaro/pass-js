@@ -183,8 +183,7 @@ export class Template extends PassBase {
         const buf = await zip.getBuffer(entry);
         if (crc32(buf) !== entry.crc32)
           throw new Error(
-            `CRC32 does not match for ${entry.fileName}, expected ${
-              entry.crc32
+            `CRC32 does not match for ${entry.fileName}, expected ${entry.crc32
             }, got ${crc32(buf)}`,
           );
         const passJSON = JSON.parse(stripJsonComments(buf.toString('utf8')));
@@ -202,8 +201,7 @@ export class Template extends PassBase {
           const imgBuffer = await zip.getBuffer(entry);
           if (crc32(imgBuffer) !== entry.crc32)
             throw new Error(
-              `CRC32 does not match for ${entry.fileName}, expected ${
-                entry.crc32
+              `CRC32 does not match for ${entry.fileName}, expected ${entry.crc32
               }, got ${crc32(imgBuffer)}`,
             );
           await template.images.add(
@@ -286,7 +284,7 @@ export class Template extends PassBase {
     // https://developer.apple.com/library/content/documentation/UserExperience/Conceptual/PassKit_PG/Updating.html
     if (!this.apn || this.apn.destroyed) {
       // creating APN Provider
-      await new Promise((resolve, reject) => {
+      await new Promise<void>((resolve, reject) => {
         if (!this.key)
           throw new ReferenceError(
             `Set private key before trying to push pass updates`,
@@ -362,6 +360,6 @@ export class Template extends PassBase {
   }
 }
 
-function createDefaultTemplate(options?: Options): Template{
+function createDefaultTemplate(options?: Options): Template {
   return new Template(undefined, {}, undefined, undefined, options)
 }
